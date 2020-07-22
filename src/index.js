@@ -1,7 +1,4 @@
-import { Select } from './lib/select/dist/select';
-import './lib/select/dist/select.css';
-
-// import { Select } from './src/select.ts';
+import { Select } from './select/index.ts';
 
 const select = new Select('#select', {
   placeholder: 'Выберите элемент',
