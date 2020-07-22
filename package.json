@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "sass": "^1.26.10",
+    "typescript": "^3.9.7"
+  },
+  "name": "select",
+  "version": "1.0.0",
+  "description": "Module <select></select>",
+  "main": "index.html",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build src/select.ts"
+  },
+  "author": "Verevin S. Denis <verevinds@yandex.ru>",
+  "license": "ISC"
+}
