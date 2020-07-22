@@ -1,3 +1,4 @@
+'use strict';
 import './styles.scss';
 type TData = { id: number; value: string };
 interface IOptions {
@@ -13,12 +14,19 @@ const getTemplate = (options) => {
     let text = 'Выберите элемент...';
 
     if (options) {
-      const { data, placeholder = 'Выберите...', selectedId }: IOptions | undefined = options;
+      const {
+        data,
+        placeholder = 'Выберите...',
+        selectedId,
+      }: IOptions | undefined = options;
       itemsList =
         data &&
         Array.isArray(data) &&
         data
-          .map((item: TData) => `<li class="select__item" data-type="item" data-value="${item.id}">${item.value}</li>`)
+          .map(
+            (item: TData) =>
+              `<li class="select__item" data-type="item" data-value="${item.id}">${item.value}</li>`,
+          )
           .join('');
 
       text =
@@ -52,9 +60,22 @@ export class Select {
   options: IOptions;
   selectedId: number | null;
 
-  constructor(selector: string, options: {}) {
-    this.$el = document.querySelector(selector);
-    this.options = options;
+  constructor(selecter: string, options?: IOptions);
+  constructor(options?) {
+    switch (arguments.length) {
+      case 1:
+        this.$el = document.createElement('div');
+        this.options = arguments[0];
+
+        break;
+      case 2:
+        this.$el = document.querySelector(arguments[0]);
+        this.options = arguments[1];
+        break;
+      default:
+        this.$el = document.createElement('div');
+        break;
+    }
     this.selectedId = this.options?.selectedId || null;
 
     this.render();
@@ -64,7 +85,10 @@ export class Select {
   private render() {
     this.$el.classList.add('select');
     this.$el.innerHTML = getTemplate(this.options);
-    if (this.selectedId) this.$el.querySelector(`[data-value="${this.selectedId}"]`).classList.add('active');
+    if (this.selectedId)
+      this.$el
+        .querySelector(`[data-value="${this.selectedId}"]`)
+        .classList.add('active');
   }
 
   private setup() {
@@ -81,7 +105,9 @@ export class Select {
       case 'input':
         if (this.options && this.options.data) {
           if (Array.isArray(this.options.data)) {
-            this.options.data.length ? this.toggle() : console.error('Массив "data" пустой.');
+            this.options.data.length
+              ? this.toggle()
+              : console.error('Массив "data" пустой.');
           } else console.error('параметр "data" должен содержать массив.');
         } else console.error('параметр "options" не содержит параметра "data"');
         break;
@@ -103,7 +129,7 @@ export class Select {
     return this.$el.classList.contains('open');
   }
 
-  get current() {
+  current() {
     return this.options.data.find((item: TData) => item.id === this.selectedId);
   }
 
@@ -111,8 +137,12 @@ export class Select {
     this.selectedId = id;
     this.$value.textContent = this.current.value;
 
-    this.$el.querySelectorAll(`[data-type="item"]`).forEach((elem: Element) => elem.classList.remove('active'));
-    this.$el.querySelector(`[data-value="${this.selectedId}"]`).classList.add('active');
+    this.$el
+      .querySelectorAll(`[data-type="item"]`)
+      .forEach((elem: Element) => elem.classList.remove('active'));
+    this.$el
+      .querySelector(`[data-value="${this.selectedId}"]`)
+      .classList.add('active');
 
     this.options.onSelect && this.options.onSelect(this.current);
 
