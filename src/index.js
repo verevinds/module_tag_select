@@ -1,7 +1,8 @@
-import { Select } from './select/index.ts';
+import { Li, Ul, Select, FontAwesome } from './selectKit/index.ts';
+// import { Select } from './select/index';
 
 const select = new Select('#select', {
-  placeholder: 'Выберите элемент',
+  placeholder: 'Выберите фреймворк',
   data: [
     { id: 1, value: 'React' },
     { id: 2, value: 'Vue' },
@@ -14,5 +15,23 @@ const select = new Select('#select', {
     console.log('selected item', item);
   },
 });
-
 window.s = select;
+
+const li = new Li();
+// console.log(li.Item(1, `lu`));
+// document.querySelector('#selectKit').appendChild(li.Item(1, `lu`));
+window.li = li;
+
+const ul = new Ul();
+
+// document.querySelector('#selectKit').appendChild(
+//   ul.List([
+//     { id: 0, value: ul.Title(`Frameworks`) },
+//     { id: 1, value: ul.Item(1, `React`) },
+//     { id: 2, value: ul.Item(2, `Vue`) },
+//     { id: 3, value: ul.Divider },
+//     { id: 4, value: ul.Item(3, `Angular`) },
+//   ]),
+// );
+console.log(FontAwesome('fa-arrow-down'));
+window.ul = ul;

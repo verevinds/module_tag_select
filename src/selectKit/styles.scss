@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+$height: 46px;
+$width: 500px;
+$border: #ccc;
+$shadow: rgba(0, 0, 0, .3);
+$hoverColor: #eee;
+$active: rgb(207, 212, 185);
+$transition: .6s ease-in-out;
+
+.list {
+  font-size: 1rem;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  &__item {
+    padding: .4rem;
+
+    border-bottom: 1px solid $border;
+
+    &.active {
+      background-color: $active;
+    }
+
+    &:hover {
+      cursor: pointer;
+      transition: .15s background-color ease-in;
+
+      background-color: $hoverColor;
+    }
+  }
+  &__title {
+    width: 100%;
+    margin: 0;
+    padding: .5rem 0 .5rem .1rem;
+
+    border-bottom: 1px solid $border;
+  }
+  &__divider {
+    width: 100%;
+    height: 0;
+    margin: 0;
+    padding: .5rem 0 0 0;
+
+    border-top: 1px solid $border;
+  }
+}
+
+.select {
+  position: relative;
+  z-index: 100;
+
+  width: 100%;
+
+  &.open {
+    .select__dropdown {
+      visibility: visible;
+
+      height: $height * 4;
+
+      opacity: 1;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .select__input {
+      border-bottom: none;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .select__backdrop {
+      display: block;
+    }
+  }
+
+  &.close {
+    .select__dropdown {
+      visibility: hidden;
+
+      height: 0;
+
+      opacity: 0;
+      border-radius: $width * .01;
+    }
+  }
+
+  &__input {
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: $height;
+    padding: 0 1rem;
+
+    cursor: pointer;
+    transition: border-radius $transition;
+
+    border: 1px solid $border;
+    border-radius: $width * .01;
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: $height;
+    right: 0;
+    left: 0;
+
+    overflow-y: auto;
+
+    max-height: $height * 4;
+
+    transition: $transition;
+
+    border: 1px solid $border;
+    box-shadow: 2px 3px 5px $shadow;
+  }
+
+  &__backdrop {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+
+    background: transparent;
+  }
+}
