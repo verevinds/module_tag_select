@@ -47,7 +47,7 @@ export class Select extends Ul {
   #render = (options) => {
     let backdrop: Element;
     let dropdown: Element;
-    let input: Element, arrow: Element, span: Element;
+    let input: Element, arrow: string, span: Element;
 
     Select.element.classList.add('select', 'close');
 
@@ -60,16 +60,17 @@ export class Select extends Ul {
     span.innerHTML = `${options.placeholder ? options.placeholder : 'Выберите элемент'}`;
 
     input.appendChild(span);
-    input.appendChild(arrow);
+    input.innerHTML += arrow;
     Select.arrow = input.childNodes[1];
     Select.value = input.childNodes[0];
 
     backdrop.classList.add('select__backdrop');
     input.classList.add('select__input');
-    dropdown.classList.add('select__dropdown');
+    dropdown.classList.add('select__dropdown', 'select__dropdown_light');
 
     backdrop.setAttribute('data-type', 'backdrop');
     input.setAttribute('data-type', 'input');
+    Select.arrow.setAttribute('data-type', 'arrow');
 
     let elementList = this.List(this.options.data);
     dropdown.appendChild(elementList);
@@ -86,15 +87,21 @@ export class Select extends Ul {
   #clickHandler = (event) => {
     const { type } = event.target.dataset;
 
-    switch (type) {
-      case 'input':
-        if (this.options && this.options.data) {
-          if (Array.isArray(this.options.data)) {
-            this.options.data.length ? this.toggle() : console.error('Массив "data" пустой.');
-          } else console.error('параметр "data" должен содержать массив.');
-        } else console.error('параметр "options" не содержит параметра "data"');
-        break;
+    const handleToggle = () => {
+      if (this.options && this.options.data) {
+        if (Array.isArray(this.options.data)) {
+          this.options.data.length ? this.toggle() : console.error('Массив "data" пустой.');
+        } else console.error('параметр "data" должен содержать массив.');
+      } else console.error('параметр "options" не содержит параметра "data"');
+    };
 
+    switch (type) {
+      case 'arrow':
+        handleToggle();
+        break;
+      case 'input':
+        handleToggle();
+        break;
       case 'item':
         const id: number = Number(event.target.dataset.value);
 
@@ -116,6 +123,9 @@ export class Select extends Ul {
   toggle() {
     Select.element.classList.toggle('open');
     Select.element.classList.toggle('close');
+    console.dir(Select.arrow);
+    Select.arrow.classList.toggle('fa-chevron-down');
+    Select.arrow.classList.toggle('fa-chevron-up');
   }
 
   select(id: number) {
