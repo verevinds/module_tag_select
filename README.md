@@ -1,6 +1,6 @@
 # Модули HTML кодов на JavaScript
 
-## Select
+## тег Select
 
 ### Создание экземпляра
 
@@ -11,7 +11,7 @@ interface IOptions {
   placeholder?: string;
   selectedId?: number;
   data?: TData[];
-  onChange?: (item: TData) => void;
+  onChange?: (item: TData) => any;
 }
 interface Select {
   selector?: string;
@@ -20,6 +20,24 @@ interface Select {
 interface Select {
   options?: IOptions;
 }
+```
+
+```ts
+type Select = () => {
+  options: {
+    placeholder?: string; // Подпись на время отсутствия выделенного элемента (не обязательный)
+    selectedId?: number; // Номер выделенного элемента (не обязательный)
+    data?: TData[]; // Список элементов (не обязательный)
+    onChange?: (item: TData) => any; // Callback - получает элемент из списка (не обязательный)
+  };
+  destroy: () => void; // Уничтожит созданный объект
+  select: (id: number) => void; // Если передать номер, выделит объект из списка
+  toggle: () => void; // Откроет список или закроет, в зависимости от состояния
+  List: (list: TData[] | any[]) => HTMLElement;
+  Divider: HTMLElement;
+  Title: (text: string) => HTMLElement;
+  Item: (id: number, value: string | Element) => HTMLElement;
+};
 ```
 
 #### Пример №1
@@ -75,3 +93,5 @@ const select = new Select({
   ],
 });
 ```
+
+## тег Ul

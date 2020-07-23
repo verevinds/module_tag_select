@@ -2,63 +2,63 @@ import { createElement } from '../js/createElement';
 import { TData } from '../Select/Select';
 
 export class Li {
-  $li: HTMLElement;
-  $liH4: HTMLElement;
-  $liDivider: HTMLElement;
+  static element: HTMLElement;
+  static elementH4: HTMLElement;
+  static elementDivider: HTMLElement;
 
   constructor() {}
 
   Item(id: number, value: string | Element) {
     switch (typeof value) {
       case 'string':
-        this.$li = createElement('li');
-        this.$li.classList.add('list__item');
-        this.$li.setAttribute('data-type', 'item');
-        this.$li.setAttribute('data-value', `${id}`);
-        this.$li.innerText = `${value}`;
-        return this.$li;
+        Li.element = createElement('li');
+        Li.element.classList.add('list__item');
+        Li.element.setAttribute('data-type', 'item');
+        Li.element.setAttribute('data-value', `${id}`);
+        Li.element.innerText = `${value}`;
+        return Li.element;
 
       default:
         return value;
     }
   }
   Title(text: string) {
-    this.$liH4 = createElement('h4');
-    this.$liH4.classList.add('list__title');
-    this.$liH4.innerText = `${text}`;
-    return this.$liH4;
+    Li.elementH4 = createElement('h4');
+    Li.elementH4.classList.add('list__title');
+    Li.elementH4.innerText = `${text}`;
+    return Li.elementH4;
   }
   get Divider() {
-    this.$liDivider = createElement('div');
-    this.$liDivider.classList.add('list__divider');
-    return this.$liDivider;
+    Li.elementDivider = createElement('div');
+    Li.elementDivider.classList.add('list__divider');
+    return Li.elementDivider;
   }
 
   destroy() {
-    this.$li.innerHTML = '';
-    this.$liH4.innerHTML = '';
-    this.$liDivider.innerHTML = '';
+    Li.element.innerHTML = '';
+    Li.elementH4.innerHTML = '';
+    Li.elementDivider.innerHTML = '';
   }
 }
 
 export class Ul extends Li {
-  $ul: HTMLElement;
+  static element: HTMLElement;
   constructor() {
     super();
   }
 
   List(list: TData[] | any[]) {
-    this.$ul = createElement('ul');
-    this.$ul.classList.add('list');
+    Ul.element = createElement('ul');
+    Ul.element.classList.add('list');
     Array.from(list, (data: TData) =>
       typeof data.value === 'string'
-        ? this.$ul.appendChild(this.Item(data.id, data.value))
+        ? Ul.element.appendChild(this.Item(data.id, data.value))
         : this.Item(data.id, data.value),
     );
-    return this.$ul;
+    return Ul.element;
   }
 
   destroy() {
-    this.$ul.innerHTML = '';
+    Ul.element.innerHTML = '';
   }
 }

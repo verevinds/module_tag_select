@@ -10,11 +10,11 @@ export interface IOptions {
 }
 
 export class Select extends Ul {
-  $element: Element;
-  $arrow: ChildNode;
-  $value: ChildNode;
+  static element: HTMLElement;
+  static arrow: ChildNode;
+  static value: ChildNode;
   options: IOptions;
-  selectedId: number | null;
+  static selectedId: number | null;
 
   constructor(selecter: string, options?: IOptions);
   constructor(options?) {
@@ -22,33 +22,33 @@ export class Select extends Ul {
     switch (arguments.length) {
       //Если передается 1 параметр, то мы берём его за options
       case 1:
-        this.$element = createElement('div');
+        Select.element = createElement('div');
         this.options = arguments[0];
         break;
 
       //Если передается 2 параметра
       case 2:
-        this.$element = document.querySelector(arguments[0]);
+        Select.element = document.querySelector(arguments[0]);
         this.options = arguments[1];
         break;
 
       // Если параметры не передавались
       default:
-        this.$element = createElement('div');
+        Select.element = createElement('div');
         break;
     }
-    this.selectedId = this.options?.selectedId || null;
+    Select.selectedId = this.options?.selectedId || null;
 
-    this.render(this.options);
-    this.setup();
+    this.#render(this.options);
+    this.#setup();
   }
 
-  private render(options) {
+  #render = (options) => {
     let backdrop: Element;
     let dropdown: Element;
     let input: Element, arrow: Element, span: Element;
 
-    this.$element.classList.add('select', 'close');
+    Select.element.classList.add('select', 'close');
 
     backdrop = createElement('div');
     dropdown = createElement('div');
@@ -60,8 +60,8 @@ export class Select extends Ul {
 
     input.appendChild(span);
     input.appendChild(arrow);
-    this.$arrow = input.childNodes[1];
-    this.$value = input.childNodes[0];
+    Select.arrow = input.childNodes[1];
+    Select.value = input.childNodes[0];
 
     backdrop.classList.add('select__backdrop');
     input.classList.add('select__input');
@@ -73,17 +73,16 @@ export class Select extends Ul {
     let elementList = this.List(this.options.data);
     dropdown.appendChild(elementList);
 
-    this.$element.appendChild(backdrop);
-    this.$element.appendChild(input);
-    this.$element.appendChild(dropdown);
-    console.log(this.$element);
-  }
+    Select.element.appendChild(backdrop);
+    Select.element.appendChild(input);
+    Select.element.appendChild(dropdown);
+  };
 
-  private setup() {
-    this.clickHandler = this.clickHandler.bind(this);
-    this.$element.addEventListener('click', this.clickHandler);
-  }
-  private clickHandler(event) {
+  #setup = () => {
+    Select.element.addEventListener('click', this.#clickHandler);
+  };
+
+  #clickHandler = (event) => {
     const { type } = event.target.dataset;
 
     switch (type) {
@@ -94,6 +93,7 @@ export class Select extends Ul {
           } else console.error('параметр "data" должен содержать массив.');
         } else console.error('параметр "options" не содержит параметра "data"');
         break;
+
       case 'item':
         const id: number = Number(event.target.dataset.value);
 
@@ -107,32 +107,32 @@ export class Select extends Ul {
       default:
         break;
     }
-  }
-  private current() {
-    return this.options.data.find((item: TData) => item.id === this.selectedId);
-  }
+  };
+  #current = () => {
+    return this.options.data.find((item: TData) => item.id === Select.selectedId);
+  };
 
   toggle() {
-    this.$element.classList.toggle('open');
-    this.$element.classList.toggle('close');
+    Select.element.classList.toggle('open');
+    Select.element.classList.toggle('close');
   }
 
   select(id: number) {
-    this.selectedId = id;
-    const current = this.current();
-    this.$value.textContent = typeof current.value === 'string' ? current.value : current.value.textContent;
+    Select.selectedId = id;
+    const current = this.#current();
+    Select.value.textContent = typeof current.value === 'string' ? current.value : current.value.textContent;
 
-    this.$element.querySelectorAll(`[data-type="item"]`).forEach((elem: Element) => elem.classList.remove('active'));
-    this.$element.querySelector(`[data-value="${this.selectedId}"]`).classList.add('active');
+    Select.element.querySelectorAll(`[data-type="item"]`).forEach((elem: Element) => elem.classList.remove('active'));
+    Select.element.querySelector(`[data-value="${Select.selectedId}"]`).classList.add('active');
 
-    this.options.onChange && this.options.onChange(this.current());
+    this.options.onChange && this.options.onChange(this.#current());
 
     this.toggle();
   }
 
   destroy() {
-    this.$element.removeEventListener('click', this.clickHandler);
-    this.$element.innerHTML = '';
+    Select.element.removeEventListener('click', this.#clickHandler);
+    Select.element.innerHTML = '';
   }
 }
 
