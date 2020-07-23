@@ -1,6 +1,6 @@
 import { Ul } from '../Ul/Ul';
 import { createElement } from '../js/createElement';
-import { FontAwesome } from '../js/fontAwesome';
+import { fontAwesome } from '../js/fontAwesome';
 
 export type TData = { id: number; value: string | Element };
 export interface IOptions {
@@ -55,7 +55,7 @@ export class Select extends Ul {
     dropdown = createElement('div');
     input = createElement('div');
     span = createElement('span');
-    arrow = FontAwesome('fa-chevron-down');
+    arrow = fontAwesome('fa-chevron-down');
 
     span.innerHTML = `${options.placeholder ? options.placeholder : 'Выберите элемент'}`;
 
