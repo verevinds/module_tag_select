@@ -1,5 +1,6 @@
 import { Ul } from '../Ul/Ul';
 import { createElement } from '../js/createElement';
+import { FontAwesome } from '../js/fontAwesome';
 
 export type TData = { id: number; value: string | Element };
 export interface IOptions {
@@ -134,11 +135,4 @@ export class Select extends Ul {
     Select.element.removeEventListener('click', this.#clickHandler);
     Select.element.innerHTML = '';
   }
-}
-
-export function FontAwesome(icon: string) {
-  const fontAwesome = createElement('i');
-  fontAwesome.classList.add(`fa`, icon);
-
-  return fontAwesome;
 }
