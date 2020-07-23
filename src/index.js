@@ -13,7 +13,7 @@ const select = new Select('#select', {
     { id: 5, value: 'Next' },
     { id: 6, value: 'NodeJS' },
   ],
-  onSelect(item) {
+  onChange(item) {
     console.log('selected item', item);
   },
 });

@@ -6,7 +6,7 @@ export interface IOptions {
   placeholder?: string;
   selectedId?: number;
   data?: TData[];
-  onSelect?: (item: TData) => void;
+  onChange?: (item: TData) => void;
 }
 
 export class Select extends Ul {
@@ -125,7 +125,7 @@ export class Select extends Ul {
     this.$element.querySelectorAll(`[data-type="item"]`).forEach((elem: Element) => elem.classList.remove('active'));
     this.$element.querySelector(`[data-value="${this.selectedId}"]`).classList.add('active');
 
-    this.options.onSelect && this.options.onSelect(this.current());
+    this.options.onChange && this.options.onChange(this.current());
 
     this.toggle();
   }

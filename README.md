@@ -11,7 +11,7 @@ interface IOptions {
   placeholder?: string;
   selectedId?: number;
   data?: TData[];
-  onSelect?: (item: TData) => void;
+  onChange?: (item: TData) => void;
 }
 interface Select {
   selector?: string;
@@ -35,7 +35,7 @@ const select = new Select('#select', {
     { id: 5, value: 'Next' },
     { id: 6, value: 'NodeJS' },
   ],
-  onSelect(item) {
+  onChange(item) {
     console.log('selected item', item);
   },
 });
@@ -55,7 +55,7 @@ const select = new Select({
     { id: 5, value: 'Next' },
     { id: 6, value: 'NodeJS' },
   ],
-  onSelect(item) {
+  onChange(item) {
     console.log('selected item', item);
   },
 });
